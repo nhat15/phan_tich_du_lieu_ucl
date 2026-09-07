@@ -1,0 +1,5 @@
+﻿demand_type,products,median_zero_rate_pct,median_active_weeks,product_pct
+erratic,1598,6.937568756875688,72.0,32.73919278836304
+intermittent,506,80.0,8.0,10.366728129481663
+lumpy,2294,55.0,30.0,46.99856586765007
+smooth,483,0.0,7.0,9.895513214505224

@@ -1,0 +1,666 @@
+{
+  "objective": "Forecast next-week quantity by StockCode and rank high-demand products",
+  "data_path": "C:\\Users\\nhatnq\\Phân tích dữ liệu\\online_retail_II.csv",
+  "raw_shape": [
+    1067371,
+    8
+  ],
+  "date_range_raw": [
+    "2009-12-01 07:45:00",
+    "2011-12-09 12:50:00"
+  ],
+  "columns": [
+    "Invoice",
+    "StockCode",
+    "Description",
+    "Quantity",
+    "InvoiceDate",
+    "Price",
+    "Customer ID",
+    "Country"
+  ],
+  "data_quality": {
+    "missing_count": {
+      "Invoice": 0,
+      "StockCode": 0,
+      "Description": 4382,
+      "Quantity": 0,
+      "InvoiceDate": 0,
+      "Price": 0,
+      "Customer ID": 243007,
+      "Country": 0
+    },
+    "missing_pct": {
+      "Invoice": 0.0,
+      "StockCode": 0.0,
+      "Description": 0.411,
+      "Quantity": 0.0,
+      "InvoiceDate": 0.0,
+      "Price": 0.0,
+      "Customer ID": 22.767,
+      "Country": 0.0
+    },
+    "exact_duplicates": 34335,
+    "cancelled_rows": 19494,
+    "nonpositive_quantity_rows": 22950,
+    "nonpositive_price_rows": 6207,
+    "missing_stock_code_rows": 0
+  },
+  "anonymous_customer_impact": {
+    "valid_rows": 1041670,
+    "anonymous_rows": 236121,
+    "anonymous_rows_pct": 22.667543463860916,
+    "anonymous_quantity": 714138.0,
+    "anonymous_quantity_pct": 6.25323053981483,
+    "anonymous_revenue": 3229165.39,
+    "anonymous_revenue_pct": 15.39707154272206,
+    "anonymous_invoices": 3108
+  },
+  "cleaning": {
+    "rows_after_cleaning": 1007913,
+    "rows_removed": 59458,
+    "rows_retained_pct": 94.4294907768714,
+    "customer_id_required": false,
+    "target_definition": "gross positive Quantity"
+  },
+  "complete_week_filter": {
+    "removed_weeks": [
+      "2009-11-30/2009-12-06",
+      "2011-12-05/2011-12-11"
+    ],
+    "rows_after_boundary_filter": 976674,
+    "week_min": "2009-12-07/2009-12-13",
+    "week_max": "2011-11-28/2011-12-04"
+  },
+  "products": {
+    "unique_stock_codes": 4881,
+    "nonstandard_stock_codes": 211,
+    "top_nonstandard_codes": [
+      {
+        "StockCode": "POST",
+        "quantity": 5239,
+        "revenue": 122783.13,
+        "rows": 1805
+      },
+      {
+        "StockCode": "DOT",
+        "quantity": 1386,
+        "revenue": 287752.75,
+        "rows": 1386
+      },
+      {
+        "StockCode": "15056BL",
+        "quantity": 8406,
+        "revenue": 42922.82,
+        "rows": 839
+      },
+      {
+        "StockCode": "M",
+        "quantity": 8816,
+        "revenue": 338793.72000000003,
+        "rows": 837
+      },
+      {
+        "StockCode": "C2",
+        "quantity": 266,
+        "revenue": 13326.0,
+        "rows": 265
+      },
+      {
+        "StockCode": "79323LP",
+        "quantity": 1351,
+        "revenue": 7982.97,
+        "rows": 158
+      },
+      {
+        "StockCode": "18098c",
+        "quantity": 283,
+        "revenue": 1433.08,
+        "rows": 130
+      },
+      {
+        "StockCode": "15056n",
+        "quantity": 173,
+        "revenue": 2170.4,
+        "rows": 116
+      },
+      {
+        "StockCode": "47566b",
+        "quantity": 212,
+        "revenue": 1761.2599999999998,
+        "rows": 113
+      },
+      {
+        "StockCode": "72349b",
+        "quantity": 186,
+        "revenue": 773.73,
+        "rows": 106
+      },
+      {
+        "StockCode": "85123a",
+        "quantity": 492,
+        "revenue": 3284.8999999999996,
+        "rows": 95
+      },
+      {
+        "StockCode": "84970s",
+        "quantity": 363,
+        "revenue": 763.24,
+        "rows": 94
+      },
+      {
+        "StockCode": "84997b",
+        "quantity": 504,
+        "revenue": 4239.67,
+        "rows": 84
+      },
+      {
+        "StockCode": "15056bl",
+        "quantity": 110,
+        "revenue": 1381.02,
+        "rows": 84
+      },
+      {
+        "StockCode": "82494l",
+        "quantity": 361,
+        "revenue": 3015.0,
+        "rows": 82
+      },
+      {
+        "StockCode": "84997d",
+        "quantity": 363,
+        "revenue": 3031.06,
+        "rows": 80
+      },
+      {
+        "StockCode": "79323GR",
+        "quantity": 518,
+        "revenue": 3107.7400000000002,
+        "rows": 78
+      },
+      {
+        "StockCode": "84997a",
+        "quantity": 173,
+        "revenue": 1440.33,
+        "rows": 78
+      },
+      {
+        "StockCode": "84997c",
+        "quantity": 339,
+        "revenue": 2842.81,
+        "rows": 76
+      },
+      {
+        "StockCode": "47591d",
+        "quantity": 253,
+        "revenue": 1274.3799999999999,
+        "rows": 72
+      }
+    ]
+  },
+  "weekly_product_observed": {
+    "rows": 193733,
+    "quantity_distribution": {
+      "min": 1.0,
+      "p25": 4.0,
+      "median": 14.0,
+      "p75": 48.0,
+      "p90": 132.0,
+      "p95": 228.0,
+      "p99": 599.0,
+      "max": 74215.0,
+      "mean": 55.821878564828914
+    },
+    "revenue_distribution": {
+      "min": 0.001,
+      "p25": 10.08,
+      "median": 29.400000000000002,
+      "p75": 88.1,
+      "p90": 231.25,
+      "p95": 400.0,
+      "p99": 1074.203999999998,
+      "max": 77183.6,
+      "mean": 101.71818971471045
+    },
+    "invoice_distribution": {
+      "min": 1.0,
+      "p25": 1.0,
+      "median": 3.0,
+      "p75": 6.0,
+      "p90": 12.0,
+      "p95": 17.0,
+      "p99": 30.0,
+      "max": 123.0,
+      "mean": 4.9846954313410725
+    }
+  },
+  "demand_sparsity": {
+    "complete_weeks": 104,
+    "theoretical_product_week_cells": 507624,
+    "observed_positive_cells": 193733,
+    "implied_zero_cells": 313891,
+    "implied_zero_pct_global_panel": 61.83533481474477,
+    "active_lifetime_product_week_cells": 323433,
+    "implied_zero_pct_within_product_lifetime": 40.101041019314664,
+    "active_weeks_per_product": {
+      "min": 1.0,
+      "p25": 12.0,
+      "median": 32.0,
+      "p75": 63.0,
+      "p90": 90.0,
+      "p95": 98.0,
+      "p99": 102.0,
+      "max": 102.0,
+      "mean": 39.69125179266544
+    },
+    "products_active_at_least_13_weeks": 3638,
+    "products_active_at_least_26_weeks": 2784,
+    "products_active_at_least_52_weeks": 1610
+  },
+  "historical_top_products": {
+    "by_quantity": [
+      {
+        "StockCode": "84077",
+        "quantity": 104335,
+        "revenue": 24006.829999999998,
+        "invoices": 992,
+        "active_weeks": 101,
+        "median_price": 0.29,
+        "description": "WORLD WAR 2 GLIDERS ASSTD DESIGNS"
+      },
+      {
+        "StockCode": "85099B",
+        "quantity": 95108,
+        "revenue": 177408.76,
+        "invoices": 3897,
+        "active_weeks": 102,
+        "median_price": 1.95,
+        "description": "JUMBO BAG RED RETROSPOT"
+      },
+      {
+        "StockCode": "21212",
+        "quantity": 93090,
+        "revenue": 50706.5,
+        "invoices": 3040,
+        "active_weeks": 102,
+        "median_price": 0.55,
+        "description": "PACK OF 72 RETROSPOT CAKE CASES"
+      },
+      {
+        "StockCode": "85123A",
+        "quantity": 91737,
+        "revenue": 251100.59,
+        "invoices": 5228,
+        "active_weeks": 102,
+        "median_price": 2.95,
+        "description": "WHITE HANGING HEART T-LIGHT HOLDER"
+      },
+      {
+        "StockCode": "22197",
+        "quantity": 83366,
+        "revenue": 75089.31999999999,
+        "invoices": 2262,
+        "active_weeks": 102,
+        "median_price": 0.85,
+        "description": "SMALL POPCORN HOLDER"
+      },
+      {
+        "StockCode": "23166",
+        "quantity": 77856,
+        "revenue": 81492.97,
+        "invoices": 237,
+        "active_weeks": 31,
+        "median_price": 1.25,
+        "description": "MEDIUM CERAMIC TOP STORAGE JAR"
+      },
+      {
+        "StockCode": "84879",
+        "quantity": 77387,
+        "revenue": 125036.59999999999,
+        "invoices": 2739,
+        "active_weeks": 102,
+        "median_price": 1.69,
+        "description": "ASSORTED COLOUR BIRD ORNAMENT"
+      },
+      {
+        "StockCode": "17003",
+        "quantity": 69909,
+        "revenue": 14617.74,
+        "invoices": 441,
+        "active_weeks": 96,
+        "median_price": 0.25,
+        "description": "BROCADE RING PURSE "
+      },
+      {
+        "StockCode": "21977",
+        "quantity": 55321,
+        "revenue": 27671.5,
+        "invoices": 1947,
+        "active_weeks": 102,
+        "median_price": 0.55,
+        "description": "PACK OF 60 PINK PAISLEY CAKE CASES"
+      },
+      {
+        "StockCode": "84991",
+        "quantity": 53277,
+        "revenue": 26607.11,
+        "invoices": 2077,
+        "active_weeks": 102,
+        "median_price": 0.55,
+        "description": "60 TEATIME FAIRY CAKE CASES"
+      }
+    ],
+    "by_revenue": [
+      {
+        "StockCode": "M",
+        "quantity": 8816,
+        "revenue": 338793.72000000003,
+        "invoices": 776,
+        "active_weeks": 102,
+        "median_price": 2.95,
+        "description": "Manual"
+      },
+      {
+        "StockCode": "22423",
+        "quantity": 26103,
+        "revenue": 325718.47,
+        "invoices": 3880,
+        "active_weeks": 89,
+        "median_price": 12.75,
+        "description": "REGENCY CAKESTAND 3 TIER"
+      },
+      {
+        "StockCode": "DOT",
+        "quantity": 1386,
+        "revenue": 287752.75,
+        "invoices": 1386,
+        "active_weeks": 101,
+        "median_price": 153.20499999999998,
+        "description": "DOTCOM POSTAGE"
+      },
+      {
+        "StockCode": "85123A",
+        "quantity": 91737,
+        "revenue": 251100.59,
+        "invoices": 5228,
+        "active_weeks": 102,
+        "median_price": 2.95,
+        "description": "WHITE HANGING HEART T-LIGHT HOLDER"
+      },
+      {
+        "StockCode": "85099B",
+        "quantity": 95108,
+        "revenue": 177408.76,
+        "invoices": 3897,
+        "active_weeks": 102,
+        "median_price": 1.95,
+        "description": "JUMBO BAG RED RETROSPOT"
+      },
+      {
+        "StockCode": "47566",
+        "quantity": 28085,
+        "revenue": 147630.35,
+        "invoices": 2649,
+        "active_weeks": 101,
+        "median_price": 4.95,
+        "description": "PARTY BUNTING"
+      },
+      {
+        "StockCode": "84879",
+        "quantity": 77387,
+        "revenue": 125036.59999999999,
+        "invoices": 2739,
+        "active_weeks": 102,
+        "median_price": 1.69,
+        "description": "ASSORTED COLOUR BIRD ORNAMENT"
+      },
+      {
+        "StockCode": "POST",
+        "quantity": 5239,
+        "revenue": 122783.13,
+        "invoices": 1805,
+        "active_weeks": 102,
+        "median_price": 18.0,
+        "description": "POSTAGE"
+      },
+      {
+        "StockCode": "22086",
+        "quantity": 31533,
+        "revenue": 106989.90000000001,
+        "invoices": 1864,
+        "active_weeks": 82,
+        "median_price": 2.95,
+        "description": "PAPER CHAIN KIT 50'S CHRISTMAS "
+      },
+      {
+        "StockCode": "23166",
+        "quantity": 77856,
+        "revenue": 81492.97,
+        "invoices": 237,
+        "active_weeks": 31,
+        "median_price": 1.25,
+        "description": "MEDIUM CERAMIC TOP STORAGE JAR"
+      }
+    ],
+    "by_invoices": [
+      {
+        "StockCode": "85123A",
+        "quantity": 91737,
+        "revenue": 251100.59,
+        "invoices": 5228,
+        "active_weeks": 102,
+        "median_price": 2.95,
+        "description": "WHITE HANGING HEART T-LIGHT HOLDER"
+      },
+      {
+        "StockCode": "85099B",
+        "quantity": 95108,
+        "revenue": 177408.76,
+        "invoices": 3897,
+        "active_weeks": 102,
+        "median_price": 1.95,
+        "description": "JUMBO BAG RED RETROSPOT"
+      },
+      {
+        "StockCode": "22423",
+        "quantity": 26103,
+        "revenue": 325718.47,
+        "invoices": 3880,
+        "active_weeks": 89,
+        "median_price": 12.75,
+        "description": "REGENCY CAKESTAND 3 TIER"
+      },
+      {
+        "StockCode": "21212",
+        "quantity": 93090,
+        "revenue": 50706.5,
+        "invoices": 3040,
+        "active_weeks": 102,
+        "median_price": 0.55,
+        "description": "PACK OF 72 RETROSPOT CAKE CASES"
+      },
+      {
+        "StockCode": "20725",
+        "quantity": 39747,
+        "revenue": 70137.21,
+        "invoices": 2991,
+        "active_weeks": 102,
+        "median_price": 1.65,
+        "description": "LUNCH BAG RED RETROSPOT"
+      },
+      {
+        "StockCode": "84879",
+        "quantity": 77387,
+        "revenue": 125036.59999999999,
+        "invoices": 2739,
+        "active_weeks": 102,
+        "median_price": 1.69,
+        "description": "ASSORTED COLOUR BIRD ORNAMENT"
+      },
+      {
+        "StockCode": "47566",
+        "quantity": 28085,
+        "revenue": 147630.35,
+        "invoices": 2649,
+        "active_weeks": 101,
+        "median_price": 4.95,
+        "description": "PARTY BUNTING"
+      },
+      {
+        "StockCode": "22383",
+        "quantity": 24946,
+        "revenue": 42968.62,
+        "invoices": 2378,
+        "active_weeks": 97,
+        "median_price": 1.65,
+        "description": "LUNCH BAG SUKI  DESIGN "
+      },
+      {
+        "StockCode": "21232",
+        "quantity": 36757,
+        "revenue": 47626.29,
+        "invoices": 2361,
+        "active_weeks": 102,
+        "median_price": 1.25,
+        "description": "STRAWBERRY CERAMIC TRINKET BOX"
+      },
+      {
+        "StockCode": "20727",
+        "quantity": 26289,
+        "revenue": 44899.47,
+        "invoices": 2302,
+        "active_weeks": 102,
+        "median_price": 1.65,
+        "description": "LUNCH BAG  BLACK SKULL."
+      }
+    ]
+  },
+  "weekly_market": {
+    "quantity_distribution": {
+      "min": 27827.0,
+      "p25": 78439.75,
+      "median": 98113.5,
+      "p75": 126257.5,
+      "p90": 164083.1,
+      "p95": 176010.14999999997,
+      "p99": 185117.03,
+      "max": 237249.0,
+      "mean": 106024.90196078431
+    },
+    "revenue_distribution": {
+      "min": 55189.58,
+      "p25": 146921.45500000002,
+      "median": 170865.64,
+      "p75": 219724.20500000002,
+      "p90": 318687.699,
+      "p95": 332275.4725,
+      "p99": 380663.1739899999,
+      "max": 387064.65,
+      "mean": 193197.7455686274
+    },
+    "top_weeks_by_quantity": [
+      {
+        "Week": "2010-09-27/2010-10-03",
+        "quantity": 237249,
+        "revenue": 332442.17,
+        "invoices": 562,
+        "active_products": 2041,
+        "quantity_change_pct": 69.99541422450237,
+        "quantity_4_week_mean": 138275.25
+      },
+      {
+        "Week": "2011-11-14/2011-11-20",
+        "quantity": 185133,
+        "revenue": 387064.65,
+        "invoices": 690,
+        "active_products": 2418,
+        "quantity_change_pct": 0.8701290210094914,
+        "quantity_4_week_mean": 169465.75
+      },
+      {
+        "Week": "2011-11-07/2011-11-13",
+        "quantity": 183536,
+        "revenue": 368996.32,
+        "invoices": 641,
+        "active_products": 2339,
+        "quantity_change_pct": 15.333521852515153,
+        "quantity_4_week_mean": 161274.75
+      },
+      {
+        "Week": "2010-08-09/2010-08-15",
+        "quantity": 182182,
+        "revenue": 179584.7,
+        "invoices": 337,
+        "active_products": 1829,
+        "quantity_change_pct": 143.51975618884669,
+        "quantity_4_week_mean": 103560.5
+      },
+      {
+        "Week": "2010-11-08/2010-11-14",
+        "quantity": 177851,
+        "revenue": 380781.021,
+        "invoices": 664,
+        "active_products": 2352,
+        "quantity_change_pct": 9.060192793544108,
+        "quantity_4_week_mean": 145295.0
+      },
+      {
+        "Week": "2010-02-15/2010-02-21",
+        "quantity": 176169,
+        "revenue": 174496.562,
+        "invoices": 313,
+        "active_products": 1878,
+        "quantity_change_pct": 246.44837758112095,
+        "quantity_4_week_mean": 93739.5
+      },
+      {
+        "Week": "2010-10-11/2010-10-17",
+        "quantity": 172992,
+        "revenue": 326358.22000000003,
+        "invoices": 574,
+        "active_products": 2130,
+        "quantity_change_pct": 5.357654008952761,
+        "quantity_4_week_mean": 178499.5
+      },
+      {
+        "Week": "2011-10-03/2011-10-09",
+        "quantity": 171014,
+        "revenue": 319084.77,
+        "invoices": 494,
+        "active_products": 2143,
+        "quantity_change_pct": 42.09603576206262,
+        "quantity_4_week_mean": 145461.5
+      },
+      {
+        "Week": "2010-11-15/2010-11-21",
+        "quantity": 170489,
+        "revenue": 354015.071,
+        "invoices": 638,
+        "active_products": 2351,
+        "quantity_change_pct": -4.139420076356048,
+        "quantity_4_week_mean": 156075.0
+      },
+      {
+        "Week": "2011-09-19/2011-09-25",
+        "quantity": 169683,
+        "revenue": 338294.081,
+        "invoices": 467,
+        "active_products": 2156,
+        "quantity_change_pct": 40.468385238166206,
+        "quantity_4_week_mean": 120059.75
+      }
+    ]
+  },
+  "next_step": {
+    "unit_of_analysis": "StockCode x complete week",
+    "target": "next-week gross Quantity",
+    "planned_actions": [
+      "Review and decide which nonstandard StockCodes are real products",
+      "Create the complete product-week panel and fill no-sale weeks with quantity=0",
+      "Create lag and rolling features using past weeks only",
+      "Split train/validation/test by week",
+      "Compare naive, moving-average and global XGBoost forecasts",
+      "Evaluate MAE/WMAPE plus Precision@K and NDCG@K"
+    ]
+  }
+}

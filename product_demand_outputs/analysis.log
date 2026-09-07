@@ -1,0 +1,97 @@
+10:53:34 | INFO | MỤC TIÊU: Dự báo số lượng bán theo SẢN PHẨM × TUẦN.
+10:53:34 | INFO | Bước này chỉ phân tích và chuẩn bị dữ liệu; chưa train model.
+10:53:34 | INFO | Kết quả sẽ được lưu trong: C:\Users\nhatnq\Phân tích dữ liệu\product_demand_outputs
+10:53:34 | INFO | 
+10:53:34 | INFO | ========================================================================
+10:53:34 | INFO | BƯỚC 1 - Đọc file và chuẩn hóa kiểu dữ liệu
+10:53:34 | INFO | Vì sao: Ngày, số lượng và giá phải là đúng kiểu trước khi tính toán.
+10:53:35 | INFO | Kích thước dữ liệu gốc: 1067371 dòng × 8 cột.
+10:53:35 | INFO | Khoảng ngày: 2009-12-01 07:45:00 đến 2011-12-09 12:50:00.
+10:53:35 | INFO | Các cột: Invoice, StockCode, Description, Quantity, InvoiceDate, Price, Customer ID, Country
+10:53:35 | INFO | Hoàn thành bước này trong 0.97 giây.
+10:53:35 | INFO | 
+10:53:35 | INFO | ========================================================================
+10:53:35 | INFO | BƯỚC 2 - Kiểm tra dữ liệu thiếu, trùng và bất hợp lý
+10:53:35 | INFO | Vì sao: Phải đo vấn đề trước khi xóa; không tự động điền khuyết.
+10:53:36 | INFO | Dòng trùng hoàn toàn: 34,335.
+10:53:36 | INFO | Dòng hủy (Invoice bắt đầu bằng C): 19,494.
+10:53:36 | INFO | Quantity <= 0: 22,950; Price <= 0: 6,207.
+10:53:36 | INFO | Thiếu Invoice     :         0 dòng ( 0.000%).
+10:53:36 | INFO | Thiếu StockCode   :         0 dòng ( 0.000%).
+10:53:36 | INFO | Thiếu Description :     4,382 dòng ( 0.411%).
+10:53:36 | INFO | Thiếu Quantity    :         0 dòng ( 0.000%).
+10:53:36 | INFO | Thiếu InvoiceDate :         0 dòng ( 0.000%).
+10:53:36 | INFO | Thiếu Price       :         0 dòng ( 0.000%).
+10:53:36 | INFO | Thiếu Customer ID :   243,007 dòng (22.767%).
+10:53:36 | INFO | Thiếu Country     :         0 dòng ( 0.000%).
+10:53:36 | INFO | Kết luận: Description thiếu không cản trở target Quantity; Customer ID sẽ được giữ lại cho bài toán sản phẩm.
+10:53:36 | INFO | Hoàn thành bước này trong 0.86 giây.
+10:53:36 | INFO | 
+10:53:36 | INFO | ========================================================================
+10:53:36 | INFO | BƯỚC 3 - Đo ảnh hưởng của Customer ID bị thiếu
+10:53:36 | INFO | Vì sao: Bài toán sản phẩm không cần biết ai mua, nên không nên bỏ các giao dịch này.
+10:53:36 | INFO | Trong giao dịch bán dương hợp lệ, thiếu Customer ID chiếm 22.67% số dòng.
+10:53:36 | INFO | Chúng đóng góp 6.25% số lượng và 15.40% doanh thu.
+10:53:36 | INFO | Quyết định: GIỮ các dòng thiếu Customer ID khi dự báo nhu cầu sản phẩm.
+10:53:36 | INFO | Hoàn thành bước này trong 0.25 giây.
+10:53:36 | INFO | 
+10:53:36 | INFO | ========================================================================
+10:53:36 | INFO | BƯỚC 4 - Tạo tập giao dịch gross sales hợp lệ
+10:53:36 | INFO | Vì sao: Mục tiêu là nhu cầu mua dương, nên loại trùng, hủy/trả, Quantity <= 0 và Price <= 0.
+10:53:37 | INFO | Sau làm sạch còn 1,007,913/1,067,371 dòng (giữ 94.43%).
+10:53:37 | INFO | Tổng số dòng bị loại: 59,458. Các điều kiện có thể chồng lấp nhau.
+10:53:37 | INFO | Hoàn thành bước này trong 0.85 giây.
+10:53:37 | INFO | 
+10:53:37 | INFO | ========================================================================
+10:53:37 | INFO | BƯỚC 5 - Loại tuần đầu/cuối không đầy đủ
+10:53:37 | INFO | Vì sao: Tuần thiếu ngày có doanh số thấp giả tạo và làm target sai.
+10:53:37 | INFO | Tuần biên không đầy đủ bị loại: 2009-11-30/2009-12-06, 2011-12-05/2011-12-11
+10:53:37 | INFO | Số dòng bị loại do tuần biên: 31,239.
+10:53:37 | INFO | Khoảng tuần hoàn chỉnh: 2009-12-07/2009-12-13 đến 2011-11-28/2011-12-04.
+10:53:37 | INFO | Hoàn thành bước này trong 0.14 giây.
+10:53:37 | INFO | 
+10:53:37 | INFO | ========================================================================
+10:53:37 | INFO | BƯỚC 6 - Khám phá sản phẩm và các mã đặc biệt
+10:53:37 | INFO | Vì sao: StockCode có thể chứa phí ship/chiết khấu, không phải mọi mã đều là hàng hóa thật.
+10:53:38 | INFO | Số StockCode duy nhất: 4,881.
+10:53:38 | INFO | Phát hiện 211 mã không theo dạng 5 chữ số + chữ cái tùy chọn.
+10:53:38 | INFO | Chưa tự động xóa các mã này; cần xem danh sách CSV và quyết định theo nghiệp vụ.
+10:53:38 | INFO | Hoàn thành bước này trong 0.38 giây.
+10:53:38 | INFO | 
+10:53:38 | INFO | ========================================================================
+10:53:38 | INFO | BƯỚC 7 - Tạo bảng quan sát Sản phẩm × Tuần
+10:53:38 | INFO | Vì sao: Mô hình sau này cần mỗi dòng là một sản phẩm trong một tuần.
+10:53:39 | INFO | Bảng quan sát có 193,733 dòng và 4,881 sản phẩm.
+10:53:39 | INFO | Lưu ý: bảng này chưa có dòng quantity=0 cho tuần không bán; bước feature engineering sẽ bổ sung.
+10:53:39 | INFO | Hoàn thành bước này trong 0.99 giây.
+10:53:39 | INFO | 
+10:53:39 | INFO | ========================================================================
+10:53:39 | INFO | BƯỚC 8 - Đo độ thưa và tính gián đoạn của nhu cầu
+10:53:39 | INFO | Vì sao: Nhiều tuần không bán sẽ quyết định có cần mô hình hai tầng hay không.
+10:53:39 | INFO | Có 104 tuần hoàn chỉnh và 507,624 ô Sản phẩm × Tuần lý thuyết.
+10:53:39 | INFO | Nếu bổ sung tuần không bán = 0, tỷ lệ zero toàn panel xấp xỉ 61.84%.
+10:53:39 | INFO | Chỉ tính từ tuần bán đầu đến tuần bán cuối của mỗi sản phẩm, zero xấp xỉ 40.10%.
+10:53:39 | INFO | Hai con số khác nhau vì toàn panel tính cả thời gian trước khi sản phẩm xuất hiện.
+10:53:39 | INFO | Sản phẩm hoạt động >= 13/26/52 tuần: 3638 / 2784 / 1610.
+10:53:39 | INFO | Hoàn thành bước này trong 0.05 giây.
+10:53:39 | INFO | 
+10:53:39 | INFO | ========================================================================
+10:53:39 | INFO | BƯỚC 9 - Xếp hạng các sản phẩm trong lịch sử
+10:53:39 | INFO | Vì sao: Top theo Quantity, Revenue và số Invoice trả lời ba câu hỏi kinh doanh khác nhau.
+10:53:41 | INFO | Top Quantity cho biết bán bao nhiêu đơn vị; Top Invoice cho biết độ phổ biến; Top Revenue cho biết giá trị tiền.
+10:53:41 | INFO | Ba danh sách đã được lưu thành CSV trong thư mục output.
+10:53:41 | INFO | Hoàn thành bước này trong 1.78 giây.
+10:53:41 | INFO | 
+10:53:41 | INFO | ========================================================================
+10:53:41 | INFO | BƯỚC 10 - Phân tích xu hướng tổng thể theo tuần
+10:53:41 | INFO | Vì sao: Trước khi dự báo từng sản phẩm, cần hiểu toàn thị trường có mùa vụ và biến động ra sao.
+10:53:41 | INFO | Số lượng theo tuần: median=98114, p90=164083, max=237249.
+10:53:41 | INFO | File weekly_market_trend.csv dùng để xem xu hướng và có thể vẽ biểu đồ sau.
+10:53:41 | INFO | Hoàn thành bước này trong 0.17 giây.
+10:53:41 | INFO | 
+10:53:41 | INFO | ========================================================================
+10:53:41 | INFO | HOÀN THÀNH EDA trong 6.45 giây.
+10:53:41 | INFO | Báo cáo JSON: C:\Users\nhatnq\Phân tích dữ liệu\product_demand_outputs\eda_report.json
+10:53:41 | INFO | Log giải thích: C:\Users\nhatnq\Phân tích dữ liệu\product_demand_outputs\analysis.log
+10:53:41 | INFO | Bảng sản phẩm-tuần: C:\Users\nhatnq\Phân tích dữ liệu\product_demand_outputs\product_weekly_observed.csv
+10:53:41 | INFO | Bước tiếp theo: duyệt mã đặc biệt, tạo tuần zero và feature lịch sử.

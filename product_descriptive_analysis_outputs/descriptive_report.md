@@ -51,6 +51,7 @@ File này không train model. Mục tiêu là hiểu dữ liệu trước khi d�
 11. ![Tỷ trọng quốc gia](charts/11_country_quantity_share.png)
 12. ![Sản phẩm trả hàng](charts/12_top_product_returns.png)
 13. ![Cơ cấu kiểu nhu cầu](charts/13_demand_type_counts.png)
+14. ![Box plot Quantity, Price và Revenue](charts/14_numeric_boxplots.png)
 
 ## Chưa được phép kết luận
 

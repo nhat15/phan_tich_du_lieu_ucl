@@ -1598,6 +1598,7 @@
     "charts\\10_quantity_pareto.png",
     "charts\\11_country_quantity_share.png",
     "charts\\12_top_product_returns.png",
-    "charts\\13_demand_type_counts.png"
+    "charts\\13_demand_type_counts.png",
+    "charts\\14_numeric_boxplots.png"
   ]
 }

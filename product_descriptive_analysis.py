@@ -102,12 +102,27 @@ def most_common_description(values: pd.Series) -> str | None:
     return None if modes.empty else str(modes.iloc[0])
 
 
-def save_csv(frame: pd.DataFrame, filename: str) -> None:
+def save_csv(frame: pd.DataFrame, filename: str) -> Path:
+    """Lưu CSV; nếu file đích đang mở trong Excel thì dùng tên dự phòng."""
     output = frame.copy()
     for column in output.columns:
         if isinstance(output[column].dtype, pd.PeriodDtype):
             output[column] = output[column].astype(str)
-    output.to_csv(OUTPUT_DIR / filename, index=False, encoding="utf-8-sig")
+    destination = OUTPUT_DIR / filename
+    try:
+        output.to_csv(destination, index=False, encoding="utf-8-sig")
+    except PermissionError:
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        destination = destination.with_name(
+            f"{destination.stem}_{timestamp}{destination.suffix}"
+        )
+        output.to_csv(destination, index=False, encoding="utf-8-sig")
+        logging.getLogger("product_descriptive_analysis").warning(
+            "File %s đang được ứng dụng khác mở; đã lưu kết quả mới thành %s.",
+            filename,
+            destination.name,
+        )
+    return destination
 
 
 def save_figure(filename: str) -> None:
@@ -127,6 +142,7 @@ def product_labels(frame: pd.DataFrame) -> list[str]:
 
 
 def create_charts(
+    sales: pd.DataFrame,
     missing_table: pd.DataFrame,
     weekly_market: pd.DataFrame,
     monthly_market: pd.DataFrame,
@@ -310,6 +326,42 @@ def create_charts(
     plt.title("Số sản phẩm theo kiểu nhu cầu")
     plt.bar_label(bars, fmt="%.0f", padding=3)
     filename = "13_demand_type_counts.png"
+    save_figure(filename)
+    chart_files.append(filename)
+
+    # 14. Box plot cho thấy trung tâm, độ phân tán và phần đuôi lệch phải.
+    # Trục log giúp các giá trị điển hình vẫn nhìn thấy được khi max lớn hơn p99 rất nhiều.
+    box_columns = [
+        ("Quantity", "Quantity"),
+        ("Price", "Price"),
+        ("Revenue", "Revenue trên mỗi dòng"),
+    ]
+    figure, axes = plt.subplots(3, 1, figsize=(13, 10))
+    for axis, (column, label) in zip(axes, box_columns):
+        values = sales[column].dropna().astype(float)
+        axis.boxplot(
+            values,
+            vert=False,
+            whis=(1, 99),
+            showfliers=False,
+            patch_artist=True,
+            boxprops={"facecolor": "#9ECAE1", "edgecolor": "#4C78A8"},
+            medianprops={"color": "#D62728", "linewidth": 2},
+            whiskerprops={"color": "#4C78A8"},
+            capprops={"color": "#4C78A8"},
+        )
+        axis.set_xscale("log")
+        axis.set_yticks([1], [label])
+        axis.set_xlabel("Giá trị (thang log)")
+        axis.set_title(
+            f"{label}: median={values.median():,.2f}; "
+            f"p99={values.quantile(0.99):,.2f}; max={values.max():,.2f}"
+        )
+    figure.suptitle(
+        "Box plot các biến số sau làm sạch (râu P1–P99; không xóa outlier)",
+        fontsize=15,
+    )
+    filename = "14_numeric_boxplots.png"
     save_figure(filename)
     chart_files.append(filename)
 
@@ -738,6 +790,7 @@ def main() -> None:
         logger, 12, "Vẽ và lưu biểu đồ", "Chuyển các bảng thống kê thành hình ảnh dễ quan sát trend, outlier, Pareto và nhu cầu gián đoạn."
     )
     chart_files = create_charts(
+        sales=sales,
         missing_table=missing_table,
         weekly_market=weekly_market,
         monthly_market=monthly_market,
@@ -809,6 +862,7 @@ File này không train model. Mục tiêu là hiểu dữ liệu trước khi d�
 11. ![Tỷ trọng quốc gia](charts/11_country_quantity_share.png)
 12. ![Sản phẩm trả hàng](charts/12_top_product_returns.png)
 13. ![Cơ cấu kiểu nhu cầu](charts/13_demand_type_counts.png)
+14. ![Box plot Quantity, Price và Revenue](charts/14_numeric_boxplots.png)
 
 ## Chưa được phép kết luận
 

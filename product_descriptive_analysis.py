@@ -494,56 +494,56 @@ def main() -> None:
     logger.info("Max cách xa p99 là dấu hiệu phân phối lệch phải; chưa tự động xóa outlier.")
     finish_step(logger, started_at)
 
-    started_at = start_step(
-        logger, 3, "Xu hướng theo tuần và tháng", "Quan sát trend, mùa vụ, tuần cao điểm và biến động thị trường."
-    )
-    weekly_market = (
-        sales.groupby("Week", observed=True)
-        .agg(quantity=("Quantity", "sum"), revenue=("Revenue", "sum"), invoices=("Invoice", "nunique"), active_products=("StockCode", "nunique"))
-        .reset_index()
-        .sort_values("Week")
-    )
-    weekly_market["quantity_change_pct"] = weekly_market["quantity"].pct_change() * 100
-    weekly_market["quantity_ma_4"] = weekly_market["quantity"].rolling(4, min_periods=1).mean()
-    weekly_market["revenue_ma_4"] = weekly_market["revenue"].rolling(4, min_periods=1).mean()
-    # Tạo lại gross sales trước bộ lọc tuần biên, sau đó chỉ giữ tháng đầy đủ.
-    # Nếu dùng `sales` ở đây, tháng đầu/cuối có thể mất vài ngày do bộ lọc tuần.
-    monthly_sales = raw.drop_duplicates().copy()
-    monthly_valid_mask = (
-        monthly_sales["InvoiceDate"].notna()
-        & monthly_sales["StockCode"].notna()
-        & (monthly_sales["Quantity"] > 0)
-        & (monthly_sales["Price"] > 0)
-        & ~monthly_sales["Invoice"].astype(str).str.startswith("C", na=False)
-    )
-    monthly_sales = monthly_sales.loc[monthly_valid_mask].copy()
-    monthly_sales["Revenue"] = monthly_sales["Quantity"] * monthly_sales["Price"]
-    monthly_sales["Month"] = monthly_sales["InvoiceDate"].dt.to_period("M")
-    first_month = monthly_sales["InvoiceDate"].min().to_period("M")
-    last_month = monthly_sales["InvoiceDate"].max().to_period("M")
-    incomplete_months: list[pd.Period] = []
-    if monthly_sales["InvoiceDate"].min().normalize() > first_month.start_time.normalize():
-        incomplete_months.append(first_month)
-    if monthly_sales["InvoiceDate"].max().normalize() < last_month.end_time.normalize():
-        incomplete_months.append(last_month)
-    monthly_sales = monthly_sales.loc[~monthly_sales["Month"].isin(incomplete_months)]
-    monthly_market = (
-        monthly_sales.groupby("Month", observed=True)
-        .agg(quantity=("Quantity", "sum"), revenue=("Revenue", "sum"), invoices=("Invoice", "nunique"), active_products=("StockCode", "nunique"))
-        .reset_index()
-        .sort_values("Month")
-    )
-    save_csv(weekly_market, "03_weekly_market_trend.csv")
-    save_csv(monthly_market, "04_monthly_market_trend.csv")
-    report["time_analysis"] = {
-        "number_of_complete_weeks": int(len(weekly_market)),
-        "weekly_quantity": numeric_summary(weekly_market["quantity"]),
-        "top_10_weeks_by_quantity": records(weekly_market.nlargest(10, "quantity")),
-        "top_10_months_by_quantity": records(monthly_market.nlargest(10, "quantity")),
-    }
-    logger.info("Có %s tuần hoàn chỉnh; Quantity tuần median=%.0f, max=%.0f.", len(weekly_market), weekly_market["quantity"].median(), weekly_market["quantity"].max())
-    logger.info("Biểu đồ tháng chỉ dùng tháng đầy đủ; tháng biên bị loại: %s.", ", ".join(map(str, incomplete_months)) or "không có")
-    finish_step(logger, started_at)
+        started_at = start_step(
+            logger, 3, "Xu hướng theo tuần và tháng", "Quan sát trend, mùa vụ, tuần cao điểm và biến động thị trường."
+        )
+        weekly_market = (
+            sales.groupby("Week", observed=True)
+            .agg(quantity=("Quantity", "sum"), revenue=("Revenue", "sum"), invoices=("Invoice", "nunique"), active_products=("StockCode", "nunique"))
+            .reset_index()
+            .sort_values("Week")
+        )
+        weekly_market["quantity_change_pct"] = weekly_market["quantity"].pct_change() * 100
+        weekly_market["quantity_ma_4"] = weekly_market["quantity"].rolling(4, min_periods=1).mean()
+        weekly_market["revenue_ma_4"] = weekly_market["revenue"].rolling(4, min_periods=1).mean()
+        # Tạo lại gross sales trước bộ lọc tuần biên, sau đó chỉ giữ tháng đầy đủ.
+        # Nếu dùng `sales` ở đây, tháng đầu/cuối có thể mất vài ngày do bộ lọc tuần.
+        monthly_sales = raw.drop_duplicates().copy()
+        monthly_valid_mask = (
+            monthly_sales["InvoiceDate"].notna()
+            & monthly_sales["StockCode"].notna()
+            & (monthly_sales["Quantity"] > 0)
+            & (monthly_sales["Price"] > 0)
+            & ~monthly_sales["Invoice"].astype(str).str.startswith("C", na=False)
+        )
+        monthly_sales = monthly_sales.loc[monthly_valid_mask].copy()
+        monthly_sales["Revenue"] = monthly_sales["Quantity"] * monthly_sales["Price"]
+        monthly_sales["Month"] = monthly_sales["InvoiceDate"].dt.to_period("M")
+        first_month = monthly_sales["InvoiceDate"].min().to_period("M")
+        last_month = monthly_sales["InvoiceDate"].max().to_period("M")
+        incomplete_months: list[pd.Period] = []
+        if monthly_sales["InvoiceDate"].min().normalize() > first_month.start_time.normalize():
+            incomplete_months.append(first_month)
+        if monthly_sales["InvoiceDate"].max().normalize() < last_month.end_time.normalize():
+            incomplete_months.append(last_month)
+        monthly_sales = monthly_sales.loc[~monthly_sales["Month"].isin(incomplete_months)]
+        monthly_market = (
+            monthly_sales.groupby("Month", observed=True)
+            .agg(quantity=("Quantity", "sum"), revenue=("Revenue", "sum"), invoices=("Invoice", "nunique"), active_products=("StockCode", "nunique"))
+            .reset_index()
+            .sort_values("Month")
+        )
+        save_csv(weekly_market, "03_weekly_market_trend.csv")
+        save_csv(monthly_market, "04_monthly_market_trend.csv")
+        report["time_analysis"] = {
+            "number_of_complete_weeks": int(len(weekly_market)),
+            "weekly_quantity": numeric_summary(weekly_market["quantity"]),
+            "top_10_weeks_by_quantity": records(weekly_market.nlargest(10, "quantity")),
+            "top_10_months_by_quantity": records(monthly_market.nlargest(10, "quantity")),
+        }
+        logger.info("Có %s tuần hoàn chỉnh; Quantity tuần median=%.0f, max=%.0f.", len(weekly_market), weekly_market["quantity"].median(), weekly_market["quantity"].max())
+        logger.info("Biểu đồ tháng chỉ dùng tháng đầy đủ; tháng biên bị loại: %s.", ", ".join(map(str, incomplete_months)) or "không có")
+        finish_step(logger, started_at)
 
     started_at = start_step(
         logger, 4, "Phân tích theo thứ và giờ", "Tìm nhịp mua hàng trong tuần/ngày; đây là mô tả, không chứng minh nhân quả."

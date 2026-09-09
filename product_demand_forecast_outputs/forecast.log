@@ -1,0 +1,44 @@
+23:09:34 | 
+23:09:34 | ============================================================================
+23:09:34 | BƯỚC 1 - Tiền xử lý
+23:09:34 | Vì sao: Dùng gross sales, giữ giao dịch thiếu Customer ID và loại mã không giống hàng hóa.
+23:09:38 | Giữ 967,886 dòng gross sales và 4,670 mã hàng chuẩn.
+23:09:47 | Hoàn thành trong 13.01 giây.
+23:09:47 | 
+23:09:47 | ============================================================================
+23:09:47 | BƯỚC 2 - Chia theo thời gian
+23:09:47 | Vì sao: Validation chọn threshold/calibration; test chỉ đánh giá tương lai.
+23:09:47 | Train 2010-03-08/2010-03-14 -> 2011-08-08/2011-08-14; validation 2011-08-15/2011-08-21 -> 2011-10-03/2011-10-09; test 2011-10-10/2011-10-16 -> 2011-11-28/2011-12-04.
+23:09:47 | Hoàn thành trong 0.12 giây.
+23:09:47 | 
+23:09:47 | ============================================================================
+23:09:47 | BƯỚC 3 - Train các model
+23:09:47 | Vì sao: Không giả định model phức tạp sẽ thắng; luôn so với baseline.
+23:10:03 | Hoàn thành trong 15.95 giây.
+23:10:03 | 
+23:10:03 | ============================================================================
+23:10:03 | BƯỚC 4 - Đánh giá
+23:10:03 | Vì sao: MAE/WMAPE đo sai số lượng; Precision@K/NDCG@K đo khả năng tìm đúng hàng bán chạy.
+23:10:04 | NaiveLag1            MAE=   23.37 WMAPE= 0.727 Precision@20=0.419 NDCG@20=0.648
+23:10:04 | MovingAverage4       MAE=   20.23 WMAPE= 0.630 Precision@20=0.512 NDCG@20=0.715
+23:10:04 | XGBoostPoisson       MAE=   20.24 WMAPE= 0.630 Precision@20=0.494 NDCG@20=0.643
+23:10:04 | TwoStageExpected     MAE=   25.41 WMAPE= 0.791 Precision@20=0.444 NDCG@20=0.662
+23:10:04 | TwoStageHardGate     MAE=   25.96 WMAPE= 0.808 Precision@20=0.444 NDCG@20=0.662
+23:10:04 | Hoàn thành trong 0.57 giây.
+23:10:04 | 
+23:10:04 | ============================================================================
+23:10:04 | BƯỚC 4.5 - Rolling backtest
+23:10:04 | Vì sao: Danh gia model qua nhieu giai doan 8 tuan, thay vi ket luan tu mot test duy nhat.
+23:10:04 | Backtest 1/4: 2011-10-10/2011-10-16 -> 2011-11-28/2011-12-04.
+23:10:19 | Backtest 2/4: 2011-08-15/2011-08-21 -> 2011-10-03/2011-10-09.
+23:10:34 | Backtest 3/4: 2011-06-20/2011-06-26 -> 2011-08-08/2011-08-14.
+23:10:47 | Backtest 4/4: 2011-04-25/2011-05-01 -> 2011-06-13/2011-06-19.
+23:10:47 | Model duoc chon sau rolling backtest: XGBoostPoisson.
+23:10:47 | Hoàn thành trong 42.68 giây.
+23:10:47 | 
+23:10:47 | ============================================================================
+23:10:47 | BƯỚC 5 - Dự báo tuần kế tiếp
+23:10:47 | Vì sao: Refit bằng toàn bộ lịch sử và chỉ xếp hạng sản phẩm còn hoạt động.
+23:11:07 | Dự báo 2973 sản phẩm cho 2011-12-05/2011-12-11.
+23:11:07 | Top 50: C:\Users\nhatnq\Phân tích dữ liệu\product_demand_forecast_outputs\top_50_products_next_week.csv
+23:11:07 | Hoàn thành trong 20.53 giây.

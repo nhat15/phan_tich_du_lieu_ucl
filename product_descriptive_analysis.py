@@ -358,7 +358,7 @@ def create_charts(
             f"p99={values.quantile(0.99):,.2f}; max={values.max():,.2f}"
         )
     figure.suptitle(
-        "Box plot các biến số sau làm sạch (râu P1–P99; không xóa outlier)",
+        "Box plot các biến số sau làm sạch",
         fontsize=15,
     )
     filename = "14_numeric_boxplots.png"

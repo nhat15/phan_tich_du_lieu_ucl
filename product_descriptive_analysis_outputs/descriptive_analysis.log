@@ -1,103 +1,103 @@
-00:20:54 | INFO | 
-00:20:54 | INFO | ==============================================================================
-00:20:54 | INFO | BƯỚC 01 - Audit và tiền xử lý
-00:20:54 | INFO | Mục đích: Tạo tập gross sales nhất quán trước mọi phân tích.
-00:20:58 | INFO | Dữ liệu gốc: 1,067,371 dòng; dữ liệu sạch: 976,674 dòng (91.50%).
-00:20:58 | INFO | Không loại theo Customer ID. Dòng sạch thiếu ID chiếm 22.45%.
-00:20:58 | INFO | Tuần biên không đủ bị loại: 2009-11-30/2009-12-06, 2011-12-05/2011-12-11.
-00:20:58 | INFO | Hoàn thành trong 4.10 giây.
-00:20:58 | INFO | 
-00:20:58 | INFO | ==============================================================================
-00:20:58 | INFO | BƯỚC 02 - Mô tả biến số
-00:20:58 | INFO | Mục đích: Hiểu phân phối Quantity, Price và Revenue và nhận biết giá trị cực lớn.
-00:20:58 | INFO | Quantity: median=4.00, p99=108.00, max=74215.00.
-00:20:58 | INFO | Revenue/dòng: median=10.08, p99=185.00, max=77183.60.
-00:20:58 | INFO | Max cách xa p99 là dấu hiệu phân phối lệch phải; chưa tự động xóa outlier.
-00:20:58 | INFO | Hoàn thành trong 0.27 giây.
-00:20:58 | INFO | 
-00:20:58 | INFO | ==============================================================================
-00:20:58 | INFO | BƯỚC 03 - Xu hướng theo tuần và tháng
-00:20:58 | INFO | Mục đích: Quan sát trend, mùa vụ, tuần cao điểm và biến động thị trường.
-00:21:00 | INFO | Có 102 tuần hoàn chỉnh; Quantity tuần median=98114, max=237249.
-00:21:00 | INFO | Biểu đồ tháng chỉ dùng tháng đầy đủ; tháng biên bị loại: 2011-12.
-00:21:00 | INFO | Hoàn thành trong 1.86 giây.
-00:21:00 | INFO | 
-00:21:00 | INFO | ==============================================================================
-00:21:00 | INFO | BƯỚC 04 - Phân tích theo thứ và giờ
-00:21:00 | INFO | Mục đích: Tìm nhịp mua hàng trong tuần/ngày; đây là mô tả, không chứng minh nhân quả.
-00:21:01 | INFO | Hoàn thành trong 0.69 giây.
-00:21:01 | INFO | 
-00:21:01 | INFO | ==============================================================================
-00:21:01 | INFO | BƯỚC 05 - Phân tích sản phẩm
-00:21:01 | INFO | Mục đích: Phân biệt bán nhiều đơn vị, phổ biến trong nhiều hóa đơn và tạo doanh thu cao.
-00:21:04 | INFO | Số StockCode: 4,881. Đã tách ba bảng xếp hạng vì Quantity, Invoice và Revenue không cùng nghĩa.
-00:21:04 | INFO | Hoàn thành trong 3.59 giây.
-00:21:04 | INFO | 
-00:21:04 | INFO | ==============================================================================
-00:21:04 | INFO | BƯỚC 06 - Mã hàng không chuẩn
-00:21:04 | INFO | Mục đích: Tìm phí ship, chiết khấu hay mã nội bộ trước khi coi mọi StockCode là hàng tồn kho.
-00:21:04 | INFO | Có 211 mã không theo pattern sản phẩm thông thường; chưa xóa vì cần duyệt nghiệp vụ.
-00:21:04 | INFO | Hoàn thành trong 0.01 giây.
-00:21:04 | INFO | 
-00:21:04 | INFO | ==============================================================================
-00:21:04 | INFO | BƯỚC 07 - Panel sản phẩm-tuần và zero demand
-00:21:04 | INFO | Mục đích: Tuần không bán là thông tin thật; cần bổ sung 0 trong vòng đời sản phẩm.
-00:21:07 | INFO | Panel trong vòng đời có 323,433 dòng; 40.10% là tuần không bán.
-00:21:07 | INFO | Hoàn thành trong 3.18 giây.
-00:21:07 | INFO | 
-00:21:07 | INFO | ==============================================================================
-00:21:07 | INFO | BƯỚC 08 - Phân loại kiểu nhu cầu
-00:21:07 | INFO | Mục đích: ADI đo mức gián đoạn; CV² đo độ biến động khi có bán.
-00:21:07 | INFO | Smooth=thường xuyên/ổn định; erratic=thường xuyên/biến động; intermittent=gián đoạn; lumpy=gián đoạn và biến động.
-00:21:07 | INFO | erratic     : 1,598 sản phẩm (32.74%).
-00:21:07 | INFO | intermittent: 506 sản phẩm (10.37%).
-00:21:07 | INFO | lumpy       : 2,294 sản phẩm (47.00%).
-00:21:07 | INFO | smooth      : 483 sản phẩm (9.90%).
-00:21:07 | INFO | Hoàn thành trong 0.01 giây.
-00:21:07 | INFO | 
-00:21:07 | INFO | ==============================================================================
-00:21:07 | INFO | BƯỚC 09 - Mức độ tập trung Pareto
-00:21:07 | INFO | Mục đích: Xác định Top sản phẩm đóng góp bao nhiêu nhu cầu và doanh thu.
-00:21:08 | INFO | Top 10/50 sản phẩm đóng góp 7.41% / 19.29% Quantity.
-00:21:08 | INFO | Hoàn thành trong 0.08 giây.
-00:21:08 | INFO | 
-00:21:08 | INFO | ==============================================================================
-00:21:08 | INFO | BƯỚC 10 - Phân tích quốc gia
-00:21:08 | INFO | Mục đích: Kiểm tra thị trường nào chi phối dữ liệu và xu hướng tổng.
-00:21:08 | INFO | Thị trường lớn nhất theo Quantity: United Kingdom (81.64%).
-00:21:08 | INFO | Hoàn thành trong 0.24 giây.
-00:21:08 | INFO | 
-00:21:08 | INFO | ==============================================================================
-00:21:08 | INFO | BƯỚC 11 - Trả hàng/hủy đơn
-00:21:08 | INFO | Mục đích: Gross demand loại các dòng này, nhưng EDA vẫn phải báo cáo rủi ro hoàn trả.
-00:21:10 | INFO | Đã trích 19,494 dòng Invoice bắt đầu C (8,292 Invoice duy nhất) từ dữ liệu gốc.
-00:21:10 | INFO | File chi tiết: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\18_cancelled_invoice_records.csv
-00:21:10 | INFO | Trả/hủy sau xóa trùng: 22,497 dòng, 11,685 hóa đơn.
-00:21:10 | INFO | Hoàn thành trong 2.08 giây.
-00:21:10 | INFO | 
-00:21:10 | INFO | ==============================================================================
-00:21:10 | INFO | BƯỚC 12 - Vẽ và lưu biểu đồ
-00:21:10 | INFO | Mục đích: Chuyển các bảng thống kê thành hình ảnh dễ quan sát trend, outlier, Pareto và nhu cầu gián đoạn.
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\01_missing_values.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\02_weekly_quantity_trend.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\03_monthly_quantity_revenue.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\04_quantity_by_weekday.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\05_invoices_by_hour.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\06_top_products_by_quantity.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\07_product_week_quantity_distribution.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\08_product_zero_rate_distribution.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\09_adi_cv2_demand_map.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\10_quantity_pareto.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\11_country_quantity_share.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\12_top_product_returns.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\13_demand_type_counts.png
-00:21:14 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\14_numeric_boxplots.png
-00:21:14 | INFO | Hoàn thành trong 4.60 giây.
-00:21:14 | INFO | 
-00:21:14 | INFO | ==============================================================================
-00:21:14 | INFO | HOÀN THÀNH TOÀN BỘ PHÂN TÍCH trong 20.73 giây.
-00:21:14 | INFO | Báo cáo dễ đọc: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\descriptive_report.md
-00:21:14 | INFO | Báo cáo máy đọc: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\descriptive_report.json
-00:21:14 | INFO | Log từng bước: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\descriptive_analysis.log
-00:21:14 | INFO | Thư mục biểu đồ: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts (14 file PNG)
-00:21:14 | INFO | Không có model nào được train trong file này.
+15:09:16 | INFO | 
+15:09:16 | INFO | ==============================================================================
+15:09:16 | INFO | BƯỚC 01 - Audit và tiền xử lý
+15:09:16 | INFO | Mục đích: Tạo tập gross sales nhất quán trước mọi phân tích.
+15:09:20 | INFO | Dữ liệu gốc: 1,067,371 dòng; dữ liệu sạch: 976,674 dòng (91.50%).
+15:09:20 | INFO | Không loại theo Customer ID. Dòng sạch thiếu ID chiếm 22.45%.
+15:09:20 | INFO | Tuần biên không đủ bị loại: 2009-11-30/2009-12-06, 2011-12-05/2011-12-11.
+15:09:20 | INFO | Hoàn thành trong 3.69 giây.
+15:09:20 | INFO | 
+15:09:20 | INFO | ==============================================================================
+15:09:20 | INFO | BƯỚC 02 - Mô tả biến số
+15:09:20 | INFO | Mục đích: Hiểu phân phối Quantity, Price và Revenue và nhận biết giá trị cực lớn.
+15:09:20 | INFO | Quantity: median=4.00, p99=108.00, max=74215.00.
+15:09:20 | INFO | Revenue/dòng: median=10.08, p99=185.00, max=77183.60.
+15:09:20 | INFO | Max cách xa p99 là dấu hiệu phân phối lệch phải; chưa tự động xóa outlier.
+15:09:20 | INFO | Hoàn thành trong 0.26 giây.
+15:09:20 | INFO | 
+15:09:20 | INFO | ==============================================================================
+15:09:20 | INFO | BƯỚC 03 - Xu hướng theo tuần và tháng
+15:09:20 | INFO | Mục đích: Quan sát trend, mùa vụ, tuần cao điểm và biến động thị trường.
+15:09:22 | INFO | Có 102 tuần hoàn chỉnh; Quantity tuần median=98114, max=237249.
+15:09:22 | INFO | Biểu đồ tháng chỉ dùng tháng đầy đủ; tháng biên bị loại: 2011-12.
+15:09:22 | INFO | Hoàn thành trong 1.53 giây.
+15:09:22 | INFO | 
+15:09:22 | INFO | ==============================================================================
+15:09:22 | INFO | BƯỚC 04 - Phân tích theo thứ và giờ
+15:09:22 | INFO | Mục đích: Tìm nhịp mua hàng trong tuần/ngày; đây là mô tả, không chứng minh nhân quả.
+15:09:23 | INFO | Hoàn thành trong 0.57 giây.
+15:09:23 | INFO | 
+15:09:23 | INFO | ==============================================================================
+15:09:23 | INFO | BƯỚC 05 - Phân tích sản phẩm
+15:09:23 | INFO | Mục đích: Phân biệt bán nhiều đơn vị, phổ biến trong nhiều hóa đơn và tạo doanh thu cao.
+15:09:25 | INFO | Số StockCode: 4,881. Đã tách ba bảng xếp hạng vì Quantity, Invoice và Revenue không cùng nghĩa.
+15:09:25 | INFO | Hoàn thành trong 2.91 giây.
+15:09:25 | INFO | 
+15:09:25 | INFO | ==============================================================================
+15:09:25 | INFO | BƯỚC 06 - Mã hàng không chuẩn
+15:09:25 | INFO | Mục đích: Tìm phí ship, chiết khấu hay mã nội bộ trước khi coi mọi StockCode là hàng tồn kho.
+15:09:25 | INFO | Có 211 mã không theo pattern sản phẩm thông thường; chưa xóa vì cần duyệt nghiệp vụ.
+15:09:25 | INFO | Hoàn thành trong 0.01 giây.
+15:09:25 | INFO | 
+15:09:25 | INFO | ==============================================================================
+15:09:25 | INFO | BƯỚC 07 - Panel sản phẩm-tuần và zero demand
+15:09:25 | INFO | Mục đích: Tuần không bán là thông tin thật; cần bổ sung 0 trong vòng đời sản phẩm.
+15:09:28 | INFO | Panel trong vòng đời có 323,433 dòng; 40.10% là tuần không bán.
+15:09:28 | INFO | Hoàn thành trong 2.45 giây.
+15:09:28 | INFO | 
+15:09:28 | INFO | ==============================================================================
+15:09:28 | INFO | BƯỚC 08 - Phân loại kiểu nhu cầu
+15:09:28 | INFO | Mục đích: ADI đo mức gián đoạn; CV² đo độ biến động khi có bán.
+15:09:28 | INFO | Smooth=thường xuyên/ổn định; erratic=thường xuyên/biến động; intermittent=gián đoạn; lumpy=gián đoạn và biến động.
+15:09:28 | INFO | erratic     : 1,598 sản phẩm (32.74%).
+15:09:28 | INFO | intermittent: 506 sản phẩm (10.37%).
+15:09:28 | INFO | lumpy       : 2,294 sản phẩm (47.00%).
+15:09:28 | INFO | smooth      : 483 sản phẩm (9.90%).
+15:09:28 | INFO | Hoàn thành trong 0.01 giây.
+15:09:28 | INFO | 
+15:09:28 | INFO | ==============================================================================
+15:09:28 | INFO | BƯỚC 09 - Mức độ tập trung Pareto
+15:09:28 | INFO | Mục đích: Xác định Top sản phẩm đóng góp bao nhiêu nhu cầu và doanh thu.
+15:09:28 | INFO | Top 10/50 sản phẩm đóng góp 7.41% / 19.29% Quantity.
+15:09:28 | INFO | Hoàn thành trong 0.07 giây.
+15:09:28 | INFO | 
+15:09:28 | INFO | ==============================================================================
+15:09:28 | INFO | BƯỚC 10 - Phân tích quốc gia
+15:09:28 | INFO | Mục đích: Kiểm tra thị trường nào chi phối dữ liệu và xu hướng tổng.
+15:09:28 | INFO | Thị trường lớn nhất theo Quantity: United Kingdom (81.64%).
+15:09:28 | INFO | Hoàn thành trong 0.22 giây.
+15:09:28 | INFO | 
+15:09:28 | INFO | ==============================================================================
+15:09:28 | INFO | BƯỚC 11 - Trả hàng/hủy đơn
+15:09:28 | INFO | Mục đích: Gross demand loại các dòng này, nhưng EDA vẫn phải báo cáo rủi ro hoàn trả.
+15:09:37 | INFO | Đã trích 19,494 dòng Invoice bắt đầu C (8,292 Invoice duy nhất) từ dữ liệu gốc.
+15:09:37 | INFO | File chi tiết: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\18_cancelled_invoice_records.csv
+15:09:37 | INFO | Trả/hủy sau xóa trùng: 22,497 dòng, 11,685 hóa đơn.
+15:09:37 | INFO | Hoàn thành trong 8.55 giây.
+15:09:37 | INFO | 
+15:09:37 | INFO | ==============================================================================
+15:09:37 | INFO | BƯỚC 12 - Vẽ và lưu biểu đồ
+15:09:37 | INFO | Mục đích: Chuyển các bảng thống kê thành hình ảnh dễ quan sát trend, outlier, Pareto và nhu cầu gián đoạn.
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\01_missing_values.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\02_weekly_quantity_trend.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\03_monthly_quantity_revenue.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\04_quantity_by_weekday.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\05_invoices_by_hour.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\06_top_products_by_quantity.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\07_product_week_quantity_distribution.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\08_product_zero_rate_distribution.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\09_adi_cv2_demand_map.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\10_quantity_pareto.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\11_country_quantity_share.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\12_top_product_returns.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\13_demand_type_counts.png
+15:09:52 | INFO | Đã lưu: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts\14_numeric_boxplots.png
+15:09:52 | INFO | Hoàn thành trong 15.53 giây.
+15:09:52 | INFO | 
+15:09:52 | INFO | ==============================================================================
+15:09:52 | INFO | HOÀN THÀNH TOÀN BỘ PHÂN TÍCH trong 35.82 giây.
+15:09:52 | INFO | Báo cáo dễ đọc: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\descriptive_report.md
+15:09:52 | INFO | Báo cáo máy đọc: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\descriptive_report.json
+15:09:52 | INFO | Log từng bước: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\descriptive_analysis.log
+15:09:52 | INFO | Thư mục biểu đồ: C:\Users\nhatnq\Phân tích dữ liệu\product_descriptive_analysis_outputs\charts (14 file PNG)
+15:09:52 | INFO | Không có model nào được train trong file này.
